@@ -1,0 +1,269 @@
+.navigation__overlay {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.3);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: none;
+}
+
+.navigation__block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 351px;
+}
+
+/* бургер */
+
+.navigation__burger-btn {
+  position: relative;
+  top: 0;
+  right: 0;
+  width: 44px;
+  height: 44px;
+  background-color: transparent;
+  border: 0;
+  display: none;
+  z-index: 12;
+}
+
+.navigation__burger-btn:hover {
+  cursor: pointer;
+  opacity: 80%;
+}
+
+.navigation__span {
+  display: block;
+  background-color: black;
+  position: absolute;
+  left: 8px;
+  bottom: 21px;
+  width: 28px;
+  height: 3px;
+  transition: background-color 0.5s, opacity 0.25s, transform 0.5s;
+  will-change: transform;
+}
+
+.navigation__span.is-active {
+  width: 22px;
+  background-color: black;
+}
+
+.navigation__span_white {
+  background-color: white;
+}
+
+.navigation__span:nth-child(1) {
+  transform: translateY(-10px);
+}
+
+.navigation__span:nth-child(3) {
+  transform: translateY(10px);
+}
+
+/* крестик у бургера*/
+
+.navigation_open .navigation__span:nth-child(1) {
+  transform: translateY(0) rotate(45deg);
+}
+
+.navigation_open .navigation__span:nth-child(2) {
+  opacity: 0;
+}
+
+.navigation_open .navigation__span:nth-child(3) {
+  transform: translateY(0) rotate(-45deg);
+}
+
+/* ссылки */
+
+.navigation__links {
+  position: absolute;
+  top: 28px;
+  right: 42%;
+  display: flex;
+  gap: 16px;
+  color: white;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+.navigation__link {
+  margin: 0;
+  text-decoration: none;
+  color: white;
+}
+
+.navigation__link_none {
+  display: none;
+}
+
+.navigation__link_dark {
+  color: black;
+}
+
+.header__link.active {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.navigation__link:hover {
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* кнопка аккаунта */
+
+.navigation__button {
+  text-decoration: none;
+}
+
+.navigation__button-account {
+  border-radius: 26px;
+  background: white;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 12px;
+  letter-spacing: 0px;
+  padding-left: 11px;
+  display: flex;
+  align-items: center;
+  padding: 3px 3px 3px 11px;
+  border: 0;
+  box-shadow: 0px 3px 14px 0px rgba(0, 0, 0, 0.08);
+}
+
+.navigation__button-account:hover {
+  opacity: 80%;
+}
+
+.navigation__button-account_green {
+  background: rgba(43, 224, 128, 1);
+}
+
+.navigation__account-icon {
+  width: 11px;
+  height: 11px;
+  background-color: rgba(249, 249, 249, 1);
+  border-radius: 30px;
+  padding: 8px;
+  margin-left: 7px;
+}
+
+/* медиазапросы */
+
+@media all and (max-width: 1023px) {
+  .navigation__links{
+    right: 41%;
+  }
+}
+
+
+@media all and (max-width: 900px) {
+  .navigation__links{
+    right: 40%;
+  }
+}
+
+@media all and (max-width: 768px) {
+  .navigation__overlay {
+    display: block;
+  }
+
+  .navigation__block {
+    height: 100vh;
+    background-color: white;
+    position: fixed;
+    right: 0;
+    top: 0;
+    right: -520px;
+    width: 520px;
+    z-index: 10;
+    flex-direction: column;
+    gap: 0;
+    visibility: hidden;
+  }
+
+  .navigation_open .navigation__block {
+    transform: translateX(-100%);
+    visibility: visible;
+  }
+
+  .navigation__burger-btn {
+    display: block;
+  }
+
+  .navigation__burger-btn.is-active {
+    position: fixed;
+    right: 0;
+    top: 0;
+    margin: 17px 12px 0 0;
+  }
+
+  .navigation__link_none {
+    display: block;
+  }
+
+  .navigation__links {
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+    margin-top: 161px;
+    position: static;
+  }
+
+  .navigation__link {
+    color: black;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: 0px;
+    padding-bottom: 5px;
+  }
+
+  .navigation__link:hover {
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 27px;
+    letter-spacing: 0px;
+    border-bottom: 1px solid black;
+  }
+
+  .navigation__button {
+    margin-bottom: 79px;
+  }
+}
+
+@media all and (max-width: 560px) {
+  .navigation__block {
+    right: -100%;
+    width: 100%;
+  }
+}
+
+
+@media all and (max-width: 400px) {
+  .navigation__burger-btn.is-active {
+    margin: 7px 10px 0 0;
+  }
+
+  .navigation__span {
+    left: 14px;
+    width: 23px;
+    height: 2.5px;
+  }
+
+  .navigation__links {
+    gap: 19px;
+    margin-top: 145px;
+  }
+
+  .navigation__button {
+    margin-bottom: 280px;
+  }
+}
