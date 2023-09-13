@@ -10,11 +10,11 @@ function Movies({ isloggedIn }) {
   return (
     <>
       <Header isloggedIn={isloggedIn} />
-      <section className="movies">
+      <main className="movies">
         <SearchForm />
         {/* <Preloader /> */}
         <MoviesCardList />
-      </section>
+      </main>
       <Footer />
     </>
   );

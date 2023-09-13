@@ -9,10 +9,10 @@ function SavedMovies({ isloggedIn }) {
   return (
     <>
       <Header isloggedIn={isloggedIn} />
-      <div className="savedMovies">
+      <main className="savedMovies">
         <SearchForm />
         <MoviesCardList />
-      </div>
+      </main>
       <Footer />
     </>
   );

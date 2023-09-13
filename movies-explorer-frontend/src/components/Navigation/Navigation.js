@@ -47,7 +47,7 @@ function Navigation() {
             className={`navigation__link ${
               location.pathname !== "/" ? "navigation__link_dark" : ""
             }`}
-          >
+          > 
             Фильмы
           </NavLink>
 

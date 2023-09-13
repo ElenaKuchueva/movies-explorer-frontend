@@ -14,7 +14,7 @@ function Profile({ isloggedIn }) {
     <>
       <Header isloggedIn={isloggedIn} />
 
-      <div className="profile">
+      <main className="profile">
         <div className="profile__block">
           <h1 className="profile__title">Привет, Виталий!</h1>
           <form className="profile__form">
@@ -70,7 +70,7 @@ function Profile({ isloggedIn }) {
             )}
           </form>
         </div>
-      </div>
+      </main>
     </>
   );
 }

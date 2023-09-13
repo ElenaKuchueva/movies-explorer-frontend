@@ -24,12 +24,19 @@ function AboutMe() {
             данной специальности и паралельно заниматься pet-проетками для
             портфолио.
           </p>
-          <p className="aboutMe__link">Github</p>
+          <a
+            className="aboutMe__link"
+            href="https://github.com/ElenaKuchueva"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Github
+          </a>
         </div>
         <img src={foto} className="aboutMe__foto" alt="Фото студента." />
       </div>
     </section>
   );
-} 
+}
 
 export default AboutMe;

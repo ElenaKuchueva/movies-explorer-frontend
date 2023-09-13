@@ -21,6 +21,11 @@
   text-decoration: none;
 }
 
+.portfolio__link:hover {
+  cursor: pointer;
+  opacity: 70%;
+}
+
 
 .portfolio__link_border {
 border-bottom: 1px solid rgba(232, 232, 232, 1);

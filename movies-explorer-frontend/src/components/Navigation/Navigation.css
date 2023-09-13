@@ -106,13 +106,14 @@
   color: black;
 }
 
-.header__link.active {
-  font-size: 14px;
-  font-weight: 500;
-}
-
 .navigation__link:hover {
   cursor: pointer;
+  opacity: 70%;
+  /* font-size: 14px;
+  font-weight: 500; */
+}
+
+.navigation__link.active {
   font-size: 14px;
   font-weight: 500;
 }
@@ -139,6 +140,7 @@
 }
 
 .navigation__button-account:hover {
+  cursor: pointer;
   opacity: 80%;
 }
 
@@ -227,11 +229,14 @@
   }
 
   .navigation__link:hover {
+    border-bottom: 1px solid black;
+  }
+
+  .navigation__link.active {
     font-size: 22px;
     font-weight: 500;
     line-height: 27px;
     letter-spacing: 0px;
-    border-bottom: 1px solid black;
   }
 
   .navigation__button {
