@@ -209,6 +209,7 @@
 
   .navigation__link_none {
     display: block;
+
   }
 
   .navigation__links {
@@ -233,14 +234,19 @@
   }
 
   .navigation__link.active {
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 500;
-    line-height: 27px;
+    line-height: 22px;
     letter-spacing: 0px;
+    border-bottom: 1px solid black;
   }
 
   .navigation__button {
     margin-bottom: 79px;
+  }
+
+  .navigation__button-account_green {
+    background: white;
   }
 }
 
@@ -269,6 +275,7 @@
   }
 
   .navigation__button {
+    margin-top: 63px;
     margin-bottom: 280px;
   }
 }

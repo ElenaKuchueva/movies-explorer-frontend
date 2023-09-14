@@ -42,6 +42,11 @@
   opacity: 0.8;
 }
 
+.switch:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
 .switch {
   display: inline-block;
 }
