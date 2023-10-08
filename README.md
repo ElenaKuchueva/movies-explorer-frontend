@@ -5,9 +5,12 @@
 
 ## Ссылки на проект
 
-Ссылка на макет https://www.figma.com/file/6FMWkB94wE7KTkcCgUXtnC/light-1?type=design&node-id=932-4503&mode=design&t=wYdZmOmuF8dH7911-0
+* Ссылка на макет https://www.figma.com/file/6FMWkB94wE7KTkcCgUXtnC/light-1?type=design&node-id=932-4503&mode=design&t=wYdZmOmuF8dH7911-0
 
-IP 158.160.78.227  
+* IP 158.160.78.227;  
 
-Backend https://api.kuchueva-diplom.nomoredomainsicu.ru;  
-Frontend https://kuchueva-diplom.nomoredomainsicu.ru;
+* Backend https://api.kuchueva-diplom.nomoredomainsicu.ru;  
+* Frontend https://kuchueva-diplom.nomoredomainsicu.ru;  
+
+
+* Pull Request https://github.com/ElenaKuchueva/movies-explorer-frontend/pull/2;
