@@ -9,6 +9,8 @@
   grid-template-columns: repeat(auto-fit,  minmax(273px, 1fr));
   justify-content: center;
   gap: 33px 19px;
+  padding: 0;
+  margin: 0;
 }
 
 .moviesCardList__item {
