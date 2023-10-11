@@ -27,7 +27,8 @@ function MoviesCard({ card, onLike, onDelete, isSaveFilms, onSaved }) {
 
   return (
     <li className="moviesCard">
-      <img
+      <a href={card.trailerLink} className="moviesCard__link" target="_blank" rel="noreferrer">
+          <img
         className="moviesCard__card"
         alt={card.nameRU}
         src={
@@ -36,6 +37,7 @@ function MoviesCard({ card, onLike, onDelete, isSaveFilms, onSaved }) {
             : card.image
         }
       />
+      </a>
       <ul className="moviesCard__block">
         <li className="moviesCard__discription">{card.nameRU}</li>
         <li>

@@ -9,6 +9,10 @@
   object-fit: cover;
 }
 
+.moviesCard__link {
+  text-decoration: none;
+}
+
 .moviesCard__block {
   display: flex;
   justify-content: space-between;
