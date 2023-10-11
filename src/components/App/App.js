@@ -111,11 +111,12 @@ function App() {
     api
       .register(name, email, password)
       .then(() => {
+        setIsSubmitForm(false);
         loggedIn(true);
         handleSubmitAuthorize({ email, password });
-        setIsSubmitForm(false);
       })
       .catch((err) => {
+        setIsSubmitForm(false);
         loggedIn(false);
         if (err.status === 409) {
           return setErrorValueForm('Пользователь с таким email уже зарегистирован');
@@ -124,6 +125,7 @@ function App() {
       });
   };
 
+
   //авторизация пользователя
   const handleSubmitAuthorize = (value) => {
     setIsSubmitForm(true);
@@ -131,14 +133,14 @@ function App() {
     api
       .authorize(email, password)
       .then((data) => {
-        // setCurrentUser(data.user);
-        setIsSubmitForm(false);
         localStorage.setItem('token', data.token);
         loggedIn(true);
         navigate('/movies', { replace: true });
         setErrorValueForm('');
+        setIsSubmitForm(false);
       })
       .catch((err) => {
+        setIsSubmitForm(false);
         loggedIn(false);
         if (err.status === 400) {
           return setErrorValueForm('Вы ввели неправильный логин или пароль');
@@ -147,10 +149,10 @@ function App() {
       });
   };
 
+
   //отправка изменненых данных из формы редактирования профиля
   function handleSubmitProfile(data) {
     setIsSubmitForm(true);
-    // const token = localStorage.getItem("token");
     api
       .changeValuesUserInfo(data)
       .then((data) => {
@@ -159,16 +161,14 @@ function App() {
           name: data.name,
           email: data.email,
         });
-        setErrorValueForm(' ');
+        setErrorValueForm('');
+        setIsSubmitForm(false);
       })
       .catch((err) => {
         if (err.status === 11000) {
           return setErrorValueForm('Пользователь с таким email уже существует');
         }
         setErrorValueForm('Произошла ошибка при сохранении изменений');
-      })
-      .finally(() => {
-        setIsSubmitForm(false);
       });
   }
 

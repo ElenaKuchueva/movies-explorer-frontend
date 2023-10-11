@@ -29,7 +29,7 @@ function Movies({
 
   function shownCountCards() {
     const display = window.innerWidth;
-    if (display > 1180) {
+    if (display > 1280) {
       setShownCardsMovies(16);
     } else if (display > 1023) {
       setShownCardsMovies(12);
