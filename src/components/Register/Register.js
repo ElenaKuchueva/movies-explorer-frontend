@@ -7,7 +7,7 @@ import {
   NAME_VALUE_VALIDATION,
 } from "../../constants/constants";
 
-function Register({ onRegister, onError, isSubmitForm, setErrorValueForm }) {
+function Register({ onRegister, onError, isSubmitForm, setErrorValueForm , setIsSubmitForm}) {
   const { values, errors, handleChange, isValid } = useFormWithValidation();
 
   const handleSubmit = (e) => {
@@ -18,6 +18,7 @@ function Register({ onRegister, onError, isSubmitForm, setErrorValueForm }) {
 
   useEffect(() => {
     setErrorValueForm("");
+    setIsSubmitForm(false);
   }, []);
 
   return (

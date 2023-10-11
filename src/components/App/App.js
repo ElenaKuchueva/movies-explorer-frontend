@@ -291,6 +291,7 @@ function App() {
                   onDelete={handleDeleteMovie}
                   isSubmitForm={isSubmitForm}
                   setErrorValueForm={setErrorValueForm}
+                  setIsSubmitForm={setIsSubmitForm}
                 />
               }
             />
@@ -302,6 +303,7 @@ function App() {
                   onError={errorValueForm}
                   isSubmitForm={isSubmitForm}
                   setErrorValueForm={setErrorValueForm}
+                  setIsSubmitForm={setIsSubmitForm}
                 />
               }
             />
@@ -313,6 +315,7 @@ function App() {
                   onError={errorValueForm}
                   isSubmitForm={isSubmitForm}
                   setErrorValueForm={setErrorValueForm}
+                  setIsSubmitForm={setIsSubmitForm}
                 />
               }
             />

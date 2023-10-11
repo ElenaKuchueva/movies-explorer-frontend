@@ -6,7 +6,7 @@ import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { EMAIL_VALUE_VALIDATION, NAME_VALUE_VALIDATION } from '../../constants/constants';
 
-function Profile({ isloggedIn, onClick, onSubmit, onError, isSubmitForm, setErrorValueForm }) {
+function Profile({ isloggedIn, onClick, onSubmit, onError, isSubmitForm, setErrorValueForm, setIsSubmitForm }) {
   const currentUser = React.useContext(CurrentUserContext);
   const { values, setValues, errors, handleChange, isValid, resetFormValue } = useFormWithValidation({
     name: currentUser.name,
@@ -22,10 +22,14 @@ function Profile({ isloggedIn, onClick, onSubmit, onError, isSubmitForm, setErro
   function handleSubmit(e) {
     e.preventDefault();
     onSubmit(values);
-    resetFormValue();
     if (!onError) {
       editProfileForm();
     }
+  }
+
+  function handleChangeInput(e) {
+    handleChange(e);
+    setIsSubmitForm(false);
   }
 
   function editProfileForm() {
@@ -51,7 +55,7 @@ function Profile({ isloggedIn, onClick, onSubmit, onError, isSubmitForm, setErro
                   maxLength="40"
                   value={values.name || ''}
                   required
-                  onChange={handleChange}
+                  onChange={handleChangeInput}
                   disabled={isSubmitFormProfile}
                   pattern={NAME_VALUE_VALIDATION}></input>
               </div>
@@ -65,7 +69,7 @@ function Profile({ isloggedIn, onClick, onSubmit, onError, isSubmitForm, setErro
                   maxLength="40"
                   value={values.email || ''}
                   required
-                  onChange={handleChange}
+                  onChange={handleChangeInput}
                   disabled={isSubmitFormProfile}
                   pattern={EMAIL_VALUE_VALIDATION}></input>
               </div>

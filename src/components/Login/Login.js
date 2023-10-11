@@ -4,7 +4,7 @@ import "../Form/Form.css";
 import { useFormWithValidation } from "../../hooks/useFormWithValidation.js";
 import { EMAIL_VALUE_VALIDATION } from "../../constants/constants";
 
-function Login({ onAuthorize, onError, isSubmitForm, setErrorValueForm }) {
+function Login({ onAuthorize, onError, isSubmitForm, setErrorValueForm, setIsSubmitForm }) {
   const { values, errors, handleChange, isValid } = useFormWithValidation();
 
   const handleSubmit = (e) => {
@@ -15,6 +15,7 @@ function Login({ onAuthorize, onError, isSubmitForm, setErrorValueForm }) {
 
   useEffect(() => {
     setErrorValueForm("");
+    setIsSubmitForm(false);
   }, []);
 
   return (
