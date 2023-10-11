@@ -6,7 +6,7 @@ import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { EMAIL_VALUE_VALIDATION, NAME_VALUE_VALIDATION } from '../../constants/constants';
 
-function Profile({ isloggedIn, onClick, onSubmit, onError, isSubmitForm }) {
+function Profile({ isloggedIn, onClick, onSubmit, onError, isSubmitForm, setErrorValueForm }) {
   const currentUser = React.useContext(CurrentUserContext);
   const { values, setValues, errors, handleChange, isValid, resetFormValue } = useFormWithValidation({
     name: currentUser.name,
@@ -30,6 +30,7 @@ function Profile({ isloggedIn, onClick, onSubmit, onError, isSubmitForm }) {
 
   function editProfileForm() {
     setIsSubmitFormProfile((click) => !click);
+    setErrorValueForm("");
   }
 
   return (
@@ -73,6 +74,7 @@ function Profile({ isloggedIn, onClick, onSubmit, onError, isSubmitForm }) {
 
             {isSubmitFormProfile ? (
               <div className="profile__conteiner">
+                <span className="profile__error-message">{onError}</span>
                 <button className="profile__button-edit" type="button" onClick={editProfileForm}>
                   Редактировать
                 </button>

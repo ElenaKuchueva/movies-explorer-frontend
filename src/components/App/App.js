@@ -1,17 +1,17 @@
-import React from 'react';
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import * as api from '../../utils/MainApi.js';
-import * as apiMovie from '../../utils/MoviesApi.js';
-import Main from '../Main/Main.js';
-import Movies from '../Movies/Movies.js';
-import SavedMovies from '../SavedMovies/SavedMovies.js';
-import Register from '../Register/Register.js';
-import Login from '../Login/Login.js';
-import Profile from '../Profile/Profile.js';
-import NotFoundPage from '../NotFoundPage/NotFoundPage.js';
-import ProtectedRoute from '../ProtectedRoute/ProtectedRoute.js';
-import './App.css';
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import React from "react";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import * as api from "../../utils/MainApi.js";
+import * as apiMovie from "../../utils/MoviesApi.js";
+import Main from "../Main/Main.js";
+import Movies from "../Movies/Movies.js";
+import SavedMovies from "../SavedMovies/SavedMovies.js";
+import Register from "../Register/Register.js";
+import Login from "../Login/Login.js";
+import Profile from "../Profile/Profile.js";
+import NotFoundPage from "../NotFoundPage/NotFoundPage.js";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute.js";
+import "./App.css";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function App() {
   const location = useLocation();
@@ -21,15 +21,15 @@ function App() {
   const [isShowMovies, setIsShowMovies] = React.useState([]);
   //для поиска всех фильмов
   const [isAllMovies, setIsAllMovies] = React.useState([]);
-  const [errorValueForm, setErrorValueForm] = React.useState('');
+  const [errorValueForm, setErrorValueForm] = React.useState("");
   const [isPreload, setIsPreload] = React.useState(false);
-  const [isNotFoundMovie, setisNotFoundMovie] = React.useState('');
+  const [isNotFoundMovie, setisNotFoundMovie] = React.useState("");
   //для сохранненых фильмов
   const [isSaveFilms, setIsSaveFilms] = React.useState([]);
   const [isSubmitForm, setIsSubmitForm] = React.useState(false);
 
   React.useEffect(() => {
-    const storedMovies = localStorage.getItem('allMovies');
+    const storedMovies = localStorage.getItem("allMovies");
 
     if (storedMovies) {
       setIsShowMovies(JSON.parse(storedMovies));
@@ -45,23 +45,23 @@ function App() {
         .then((res) => {
           setIsAllMovies(res);
           const search = searchMovies(res, query);
-          localStorage.setItem('allMovies', JSON.stringify(search));
-          localStorage.setItem('query', query);
+          localStorage.setItem("allMovies", JSON.stringify(search));
+          localStorage.setItem("query", query);
           setIsShowMovies(search);
-          setisNotFoundMovie('');
+          setisNotFoundMovie("");
           if (search.length === 0) {
-            setisNotFoundMovie('По вашему запросу ничего не найдено');
+            setisNotFoundMovie("По вашему запросу ничего не найдено");
           }
         })
         .catch((err) => console.log(err))
         .finally(() => setIsPreload(false));
     } else {
       const search = searchMovies(isAllMovies, query);
-      localStorage.setItem('allMovies', JSON.stringify(search));
+      localStorage.setItem("allMovies", JSON.stringify(search));
       setIsShowMovies(search);
-      setisNotFoundMovie('');
+      setisNotFoundMovie("");
       if (search.length === 0) {
-        setisNotFoundMovie('По вашему запросу ничего не найдено');
+        setisNotFoundMovie("По вашему запросу ничего не найдено");
       }
     }
   }
@@ -69,7 +69,10 @@ function App() {
   //поиск по букве в форме поиска фильмов
   function searchMovies(arr, query) {
     return arr.filter((elem) => {
-      return elem.nameRU.toLowerCase().includes(query.toLowerCase()) || elem.nameEN.toLowerCase().includes(query.toLowerCase());
+      return (
+        elem.nameRU.toLowerCase().includes(query.toLowerCase()) ||
+        elem.nameEN.toLowerCase().includes(query.toLowerCase())
+      );
     });
   }
 
@@ -78,7 +81,7 @@ function App() {
       .getCardsMovies()
       .then((data) => {
         setIsSaveFilms(data);
-        localStorage.setItem('saveMovies', JSON.stringify(data));
+        localStorage.setItem("saveMovies", JSON.stringify(data));
       })
       .catch((err) => {
         console.log(err);
@@ -86,7 +89,7 @@ function App() {
   }
 
   React.useEffect(() => {
-    const jwt = localStorage.getItem('token');
+    const jwt = localStorage.getItem("token");
     if (jwt) {
       api
         .getJwt(jwt)
@@ -119,12 +122,15 @@ function App() {
         setIsSubmitForm(false);
         loggedIn(false);
         if (err.status === 409) {
-          return setErrorValueForm('Пользователь с таким email уже зарегистирован');
+          return setErrorValueForm(
+            "Пользователь с таким email уже зарегистирован"
+          );
         }
-        setErrorValueForm('Переданы некорректные данные при создании пользователя');
+        setErrorValueForm(
+          "Переданы некорректные данные при создании пользователя"
+        );
       });
   };
-
 
   //авторизация пользователя
   const handleSubmitAuthorize = (value) => {
@@ -133,22 +139,21 @@ function App() {
     api
       .authorize(email, password)
       .then((data) => {
-        localStorage.setItem('token', data.token);
+        localStorage.setItem("token", data.token);
         loggedIn(true);
-        navigate('/movies', { replace: true });
-        setErrorValueForm('');
+        navigate("/movies", { replace: true });
+        setErrorValueForm("");
         setIsSubmitForm(false);
       })
       .catch((err) => {
         setIsSubmitForm(false);
         loggedIn(false);
         if (err.status === 400) {
-          return setErrorValueForm('Вы ввели неправильный логин или пароль');
+          return setErrorValueForm("Вы ввели неправильный логин или пароль");
         }
-        setErrorValueForm('При авторизации произошла ошибка');
+        setErrorValueForm("При авторизации произошла ошибка");
       });
   };
-
 
   //отправка изменненых данных из формы редактирования профиля
   function handleSubmitProfile(data) {
@@ -161,14 +166,14 @@ function App() {
           name: data.name,
           email: data.email,
         });
-        setErrorValueForm('');
+        setErrorValueForm("Данные успешно обновлены");
         setIsSubmitForm(false);
       })
       .catch((err) => {
         if (err.status === 11000) {
-          return setErrorValueForm('Пользователь с таким email уже существует');
+          return setErrorValueForm("Пользователь с таким email уже существует");
         }
-        setErrorValueForm('Произошла ошибка при сохранении изменений');
+        setErrorValueForm("Произошла ошибка при сохранении изменений");
       });
   }
 
@@ -194,16 +199,20 @@ function App() {
         duration: movie.duration,
         year: movie.year,
         description: movie.description,
-        image: 'https://api.nomoreparties.co' + movie.image.url,
+        image: "https://api.nomoreparties.co" + movie.image.url,
         trailerLink: movie.trailerLink,
-        thumbnail: 'https://api.nomoreparties.co' + movie.image.formats.thumbnail.url,
+        thumbnail:
+          "https://api.nomoreparties.co" + movie.image.formats.thumbnail.url,
         movieId: movie.id,
         nameRU: movie.nameRU,
         nameEN: movie.nameEN,
       })
       .then((newfilm) => {
         setIsSaveFilms([newfilm, ...isSaveFilms]);
-        localStorage.setItem('saveMovies', JSON.stringify([newfilm, ...isSaveFilms]));
+        localStorage.setItem(
+          "saveMovies",
+          JSON.stringify([newfilm, ...isSaveFilms])
+        );
       })
       .catch((err) => {
         console.log(`Ошибка ${err}`);
@@ -214,7 +223,9 @@ function App() {
     api
       .deleteMovie(movie._id)
       .then(() => {
-        setIsSaveFilms((state) => state.filter((item) => item._id !== movie._id));
+        setIsSaveFilms((state) =>
+          state.filter((item) => item._id !== movie._id)
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -223,13 +234,13 @@ function App() {
 
   //выход
   function exit() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('allMovies');
-    localStorage.removeItem('query');
-    localStorage.removeItem('toggle');
-    localStorage.removeItem('saveMovies');
+    localStorage.removeItem("token");
+    localStorage.removeItem("allMovies");
+    localStorage.removeItem("query");
+    localStorage.removeItem("toggle");
+    localStorage.removeItem("saveMovies");
     setIsShowMovies([]);
-    navigate('/');
+    navigate("/");
     loggedIn(false);
   }
 
@@ -279,16 +290,31 @@ function App() {
                   onSubmit={handleSubmitProfile}
                   onDelete={handleDeleteMovie}
                   isSubmitForm={isSubmitForm}
+                  setErrorValueForm={setErrorValueForm}
                 />
               }
             />
             <Route
               path="/signin"
-              element={<Login onAuthorize={handleSubmitAuthorize} onError={errorValueForm} isSubmitForm={isSubmitForm} />}
+              element={
+                <Login
+                  onAuthorize={handleSubmitAuthorize}
+                  onError={errorValueForm}
+                  isSubmitForm={isSubmitForm}
+                  setErrorValueForm={setErrorValueForm}
+                />
+              }
             />
             <Route
               path="/signup"
-              element={<Register onRegister={handleSubmitRegister} onError={errorValueForm} isSubmitForm={isSubmitForm} />}
+              element={
+                <Register
+                  onRegister={handleSubmitRegister}
+                  onError={errorValueForm}
+                  isSubmitForm={isSubmitForm}
+                  setErrorValueForm={setErrorValueForm}
+                />
+              }
             />
           </Routes>
         </CurrentUserContext.Provider>
