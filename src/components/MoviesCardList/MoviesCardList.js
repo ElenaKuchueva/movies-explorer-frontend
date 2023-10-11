@@ -31,7 +31,7 @@ function MoviesCardList({
         </ul>
       ) : (
         <p className="moviesCardList__text-error">
-          {isNotFoundMovie || "По вашему запросу ничего не найдено"}
+          {isNotFoundMovie && "По вашему запросу ничего не найдено"}
         </p>
       )}
     </section>

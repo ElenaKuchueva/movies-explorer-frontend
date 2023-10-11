@@ -8,7 +8,7 @@ import { EMAIL_VALUE_VALIDATION, NAME_VALUE_VALIDATION } from '../../constants/c
 
 function Profile({ isloggedIn, onClick, onSubmit, onError, isSubmitForm, setErrorValueForm, setIsSubmitForm }) {
   const currentUser = React.useContext(CurrentUserContext);
-  const { values, setValues, errors, handleChange, isValid, resetFormValue } = useFormWithValidation({
+  const { values, setValues, errors, handleChange, isValid } = useFormWithValidation({
     name: currentUser.name,
     email: currentUser.email,
   });
