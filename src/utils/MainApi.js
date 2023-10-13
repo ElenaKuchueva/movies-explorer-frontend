@@ -1,5 +1,5 @@
-export const BASE_URL = 'https://api.kuchueva-diplom.nomoredomainsicu.ru';
-// export const BASE_URL = 'http://localhost:3000';
+// export const BASE_URL = 'https://api.kuchueva-diplom.nomoredomainsicu.ru';
+export const BASE_URL = 'http://localhost:3000';
 
 const handleResponse = (res) => {
   if (res.ok) {
@@ -64,11 +64,11 @@ export const getJwt = (token) => {
 };
 
 //Актуальные данные о пользователе
-export const getUserInfo = () => {
+export const getUserInfo = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
   }).then((res) => handleResponse(res));

@@ -12,6 +12,7 @@ import NotFoundPage from "../NotFoundPage/NotFoundPage.js";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute.js";
 import "./App.css";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { searchMovies } from "../../utils/filter.js";
 
 function App() {
   const location = useLocation();
@@ -20,7 +21,15 @@ function App() {
   const [isloggedIn, loggedIn] = React.useState(false);
   const [isShowMovies, setIsShowMovies] = React.useState([]);
   //для поиска всех фильмов
-  const [isAllMovies, setIsAllMovies] = React.useState([]);
+  const [isAllMovies, setIsAllMovies] = React.useState(
+    JSON.parse(localStorage.getItem("allMovies")) || []
+  );
+  const [isSearchValueInput, setIsSearchValueInput] = React.useState(
+    localStorage.getItem("query") || ""
+  );
+  const [isMovieShort, setisMovieShort] = React.useState(
+    JSON.parse(localStorage.getItem("toggle")) || false
+  );
   const [errorValueForm, setErrorValueForm] = React.useState("");
   const [isPreload, setIsPreload] = React.useState(false);
   const [isNotFoundMovie, setisNotFoundMovie] = React.useState("");
@@ -44,36 +53,47 @@ function App() {
         .getInitialMovies()
         .then((res) => {
           setIsAllMovies(res);
-          const search = searchMovies(res, query);
-          localStorage.setItem("allMovies", JSON.stringify(search));
           localStorage.setItem("query", query);
+          const search = searchMovies(res, query, isMovieShort);
+          localStorage.setItem("allMovies", JSON.stringify(search));
           setIsShowMovies(search);
-          setisNotFoundMovie("");
           if (search.length === 0) {
             setisNotFoundMovie("По вашему запросу ничего не найдено");
+          } else {
+            setisNotFoundMovie("");
           }
         })
         .catch((err) => console.log(err))
         .finally(() => setIsPreload(false));
     } else {
-      const search = searchMovies(isAllMovies, query);
+      localStorage.setItem("query", query);
+      const search = searchMovies(isAllMovies, query, isMovieShort);
       localStorage.setItem("allMovies", JSON.stringify(search));
       setIsShowMovies(search);
-      setisNotFoundMovie("");
       if (search.length === 0) {
         setisNotFoundMovie("По вашему запросу ничего не найдено");
+      } else {
+        setisNotFoundMovie("");
       }
     }
   }
 
-  //поиск по букве в форме поиска фильмов
-  function searchMovies(arr, query) {
-    return arr.filter((elem) => {
-      return (
-        elem.nameRU.toLowerCase().includes(query.toLowerCase()) ||
-        elem.nameEN.toLowerCase().includes(query.toLowerCase())
-      );
-    });
+  function toggleCheckbox(evt) {
+    const checkbox = evt.target.checked;
+    setisMovieShort(checkbox);
+    localStorage.setItem("toggle", checkbox);
+    const query = localStorage.getItem("query");
+    if (query) {
+      localStorage.setItem("query", isSearchValueInput);
+      const search = searchMovies(isAllMovies, isSearchValueInput, checkbox);
+      localStorage.setItem("allMovies", JSON.stringify(search));
+      setIsShowMovies(search);
+      if (search.length === 0) {
+        setisNotFoundMovie("По вашему запросу ничего не найдено");
+      } else {
+        setisNotFoundMovie("");
+      }
+    }
   }
 
   function getSavedMovies() {
@@ -90,21 +110,19 @@ function App() {
 
   React.useEffect(() => {
     const jwt = localStorage.getItem("token");
-    if (jwt) {
-      api
-        .getJwt(jwt)
-        .then((res) => {
-          if (res) {
-            loggedIn(true);
-            setCurrentUser(res);
-            getSavedMovies();
-            navigate(location.pathname);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+    api
+      .getJwt(jwt)
+      .then((res) => {
+        if (res) {
+          loggedIn(true);
+          setCurrentUser(res);
+          getSavedMovies();
+          navigate(location.pathname);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   //регистрация пользователя
@@ -137,15 +155,14 @@ function App() {
     api
       .authorize(email, password)
       .then((data) => {
+        setIsSubmitForm(false);
         localStorage.setItem("token", data.token);
         loggedIn(true);
         navigate("/movies", { replace: true });
         setErrorValueForm("");
-        setIsSubmitForm(false);
       })
       .catch((err) => {
         setIsSubmitForm(false);
-        loggedIn(false);
         if (err.status === 400) {
           return setErrorValueForm("Вы ввели неправильный логин или пароль");
         }
@@ -177,11 +194,15 @@ function App() {
 
   //Получение данных о пользователе
   React.useEffect(() => {
+    const jwt = localStorage.getItem("token");
     if (isloggedIn) {
       api
-        .getUserInfo()
-        .then((info) => {
-          setCurrentUser(info);
+        .getUserInfo(jwt)
+        .then((res) => {
+          if (res) {
+            loggedIn(true);
+            setCurrentUser(res);
+          }
         })
         .catch((err) => {
           console.log(`Ошибка ${err}`);
@@ -260,11 +281,16 @@ function App() {
                   isloggedIn={isloggedIn}
                   cards={isShowMovies}
                   onSearch={showCards}
+                  onChange={toggleCheckbox}
                   isNotFoundMovie={isNotFoundMovie}
                   onLike={handleLikeClick}
                   isPreload={isPreload}
                   onDelete={handleDeleteMovie}
                   isSaveFilms={isSaveFilms}
+                  isSearchValueInput={isSearchValueInput}
+                  setIsSearchValueInput={setIsSearchValueInput}
+                  isMovieShort={isMovieShort}
+                  setisMovieShort={setisMovieShort}
                 />
               }
             />
@@ -277,6 +303,9 @@ function App() {
                   isSaveFilms={isSaveFilms}
                   onDelete={handleDeleteMovie}
                   searchMovies={searchMovies}
+                  isSearchValueInput={isSearchValueInput}
+                  setIsSearchValueInput={setIsSearchValueInput}
+                  getSavedMovies={getSavedMovies}
                 />
               }
             />
@@ -288,10 +317,10 @@ function App() {
                   isloggedIn={isloggedIn}
                   onClick={exit}
                   onError={errorValueForm}
+                  setErrorValueForm={setErrorValueForm}
                   onSubmit={handleSubmitProfile}
                   onDelete={handleDeleteMovie}
                   isSubmitForm={isSubmitForm}
-                  setErrorValueForm={setErrorValueForm}
                   setIsSubmitForm={setIsSubmitForm}
                 />
               }
@@ -302,8 +331,8 @@ function App() {
                 <Login
                   onAuthorize={handleSubmitAuthorize}
                   onError={errorValueForm}
-                  isSubmitForm={isSubmitForm}
                   setErrorValueForm={setErrorValueForm}
+                  isSubmitForm={isSubmitForm}
                   setIsSubmitForm={setIsSubmitForm}
                 />
               }
@@ -314,8 +343,8 @@ function App() {
                 <Register
                   onRegister={handleSubmitRegister}
                   onError={errorValueForm}
-                  isSubmitForm={isSubmitForm}
                   setErrorValueForm={setErrorValueForm}
+                  isSubmitForm={isSubmitForm}
                   setIsSubmitForm={setIsSubmitForm}
                 />
               }

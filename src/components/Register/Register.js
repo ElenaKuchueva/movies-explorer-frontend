@@ -1,23 +1,20 @@
-import React from "react";
-import Form from "../Form/Form.js";
-import "../Form/Form.css";
-import { useFormWithValidation } from "../../hooks/useFormWithValidation.js";
-import {
-  EMAIL_VALUE_VALIDATION,
-  NAME_VALUE_VALIDATION,
-} from "../../constants/constants";
+import React, { useEffect } from 'react';
+import Form from '../Form/Form.js';
+import '../Form/Form.css';
+import { useFormWithValidation } from '../../hooks/useFormWithValidation.js';
+import { EMAIL_VALUE_VALIDATION, NAME_VALUE_VALIDATION } from '../../constants/constants';
 
-function Register({ onRegister, onError, isSubmitForm, setErrorValueForm , setIsSubmitForm}) {
+function Register({ onRegister, onError, setErrorValueForm, isSubmitForm, setIsSubmitForm }) {
   const { values, errors, handleChange, isValid } = useFormWithValidation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onRegister(values);
-    setErrorValueForm("");
+    setErrorValueForm('');
   };
 
   useEffect(() => {
-    setErrorValueForm("");
+    setErrorValueForm('');
     setIsSubmitForm(false);
   }, []);
 
@@ -32,8 +29,7 @@ function Register({ onRegister, onError, isSubmitForm, setErrorValueForm , setIs
         onError={onError}
         disabled={!isValid}
         onSubmit={handleSubmit}
-        isSubmitForm={isSubmitForm}
-      >
+        isSubmitForm={isSubmitForm}>
         <div className="form__field">
           <label className="form__label">Имя</label>
           <input
@@ -41,7 +37,7 @@ function Register({ onRegister, onError, isSubmitForm, setErrorValueForm , setIs
             type="text"
             name="name"
             id="name-input"
-            value={values.name || ""}
+            value={values.name || ''}
             tabIndex="1"
             minLength="2"
             maxLength="200"
@@ -59,7 +55,7 @@ function Register({ onRegister, onError, isSubmitForm, setErrorValueForm , setIs
             type="email"
             name="email"
             id="email-input"
-            value={values.email || ""}
+            value={values.email || ''}
             tabIndex="2"
             minLength="2"
             maxLength="40"
@@ -77,7 +73,7 @@ function Register({ onRegister, onError, isSubmitForm, setErrorValueForm , setIs
             type="password"
             name="password"
             id="password-input"
-            value={values.password || ""}
+            value={values.password || ''}
             tabIndex="3"
             minLength="2"
             maxLength="200"

@@ -1,20 +1,20 @@
-import React from "react";
-import Form from "../Form/Form.js";
-import "../Form/Form.css";
-import { useFormWithValidation } from "../../hooks/useFormWithValidation.js";
-import { EMAIL_VALUE_VALIDATION } from "../../constants/constants";
+import React, { useEffect } from 'react';
+import Form from '../Form/Form.js';
+import '../Form/Form.css';
+import { useFormWithValidation } from '../../hooks/useFormWithValidation.js';
+import { EMAIL_VALUE_VALIDATION } from '../../constants/constants';
 
-function Login({ onAuthorize, onError, isSubmitForm, setErrorValueForm, setIsSubmitForm }) {
+function Login({ onAuthorize, onError, setErrorValueForm, isSubmitForm, setIsSubmitForm }) {
   const { values, errors, handleChange, isValid } = useFormWithValidation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onAuthorize(values);
-    setErrorValueForm("");
+    setErrorValueForm('');
   };
 
   useEffect(() => {
-    setErrorValueForm("");
+    setErrorValueForm('');
     setIsSubmitForm(false);
   }, []);
 
@@ -29,8 +29,7 @@ function Login({ onAuthorize, onError, isSubmitForm, setErrorValueForm, setIsSub
         onSubmit={handleSubmit}
         onError={onError}
         disabled={!isValid}
-        isSubmitForm={isSubmitForm}
-      >
+        isSubmitForm={isSubmitForm}>
         <div className="form__field">
           <label className="form__label">E-mail</label>
           <input
@@ -41,7 +40,7 @@ function Login({ onAuthorize, onError, isSubmitForm, setErrorValueForm, setIsSub
             minLength="2"
             maxLength="40"
             required
-            value={values.email || ""}
+            value={values.email || ''}
             tabIndex="2"
             onChange={handleChange}
             pattern={EMAIL_VALUE_VALIDATION}
@@ -56,7 +55,7 @@ function Login({ onAuthorize, onError, isSubmitForm, setErrorValueForm, setIsSub
             type="password"
             name="password"
             id="password-input"
-            value={values.password || ""}
+            value={values.password || ''}
             minLength="2"
             maxLength="200"
             required

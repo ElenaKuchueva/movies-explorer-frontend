@@ -45,6 +45,10 @@
   opacity: 70%;
 }
 
+.header__link {
+  text-decoration: none;
+}
+
 /* переход на авторизацию */
 
 .header__button-auth {

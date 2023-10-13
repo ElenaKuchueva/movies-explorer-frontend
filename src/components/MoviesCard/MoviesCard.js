@@ -1,6 +1,6 @@
-import React from "react";
-import "./MoviesCard.css";
-import { useLocation } from "react-router-dom";
+import React from 'react';
+import './MoviesCard.css';
+import { useLocation } from 'react-router-dom';
 
 function MoviesCard({ card, onLike, onDelete, isSaveFilms, onSaved }) {
   const location = useLocation();
@@ -28,27 +28,19 @@ function MoviesCard({ card, onLike, onDelete, isSaveFilms, onSaved }) {
   return (
     <li className="moviesCard">
       <a href={card.trailerLink} className="moviesCard__link" target="_blank" rel="noreferrer">
-          <img
-        className="moviesCard__card"
-        alt={card.nameRU}
-        src={
-          location.pathname === "/movies"
-            ? `https://api.nomoreparties.co${card.image.url}`
-            : card.image
-        }
-      />
+        <img
+          className="moviesCard__card"
+          alt={card.nameRU}
+          src={location.pathname === '/movies' ? `https://api.nomoreparties.co${card.image.url}` : card.image}
+        />
       </a>
       <ul className="moviesCard__block">
         <li className="moviesCard__discription">{card.nameRU}</li>
         <li>
-          {location.pathname === "/movies" ? (
+          {location.pathname === '/movies' ? (
             <button
               type="button"
-              className={`moviesCard__like ${
-                isSavedMovie
-                  ? "moviesCard__like_active"
-                  : "moviesCard__like_inactive"
-              }`}
+              className={`moviesCard__like ${isSavedMovie ? 'moviesCard__like_active' : 'moviesCard__like_inactive'}`}
               aria-label="Добавить в сохраненные фильмы"
               onClick={handleButtonClick}
             />

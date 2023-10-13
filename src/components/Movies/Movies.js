@@ -1,41 +1,41 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
-import "./Movies.css";
-import Header from "../Header/Header.js";
-import SearchForm from "../SearchForm/SearchForm.js";
-import Preloader from "../Preloader/Preloader.js";
-import MoviesCardList from "../MoviesCardList/MoviesCardList.js";
-import Footer from "../Footer/Footer";
-import { useFilter } from "../../utils/useFilter";
-import { DECKTOP, TABLET, MOBILE } from "../../constants/constants";
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import './Movies.css';
+import Header from '../Header/Header.js';
+import SearchForm from '../SearchForm/SearchForm.js';
+import Preloader from '../Preloader/Preloader.js';
+import MoviesCardList from '../MoviesCardList/MoviesCardList.js';
+import Footer from '../Footer/Footer';
+import { DECKTOP, TABLET, MOBILE } from '../../constants/constants';
 
 function Movies({
   isloggedIn,
   cards,
   onSearch,
+  onChange,
   isNotFoundMovie,
   onLike,
   compareId,
   isPreload,
   onDelete,
-  isSaveFilms
+  isSaveFilms,
+  isSearchValueInput,
+  setIsSearchValueInput,
+  isMovieShort,
 }) {
   const location = useLocation();
-
-  const [isMovieShort, setisMovieShort] = React.useState(false);
-  const filterMovies = useFilter(cards, isMovieShort);
 
   const [shownCardsMovies, setShownCardsMovies] = React.useState(0);
 
   function shownCountCards() {
     const display = window.innerWidth;
-    if (display > 1280) {
+    if (display >= 1280) {
       setShownCardsMovies(16);
-    } else if (display > 1023) {
+    } else if (display >= 801 && display <= 1100) {
       setShownCardsMovies(12);
-    } else if (display > 800) {
+    } else if (display >= 481 && display <= 800) {
       setShownCardsMovies(8);
-    } else if (display < 800) {
+    } else if (display <= 480) {
       setShownCardsMovies(5);
     }
   }
@@ -45,32 +45,18 @@ function Movies({
   }, []);
 
   React.useEffect(() => {
-    window.addEventListener("resize", shownCountCards);
+    window.addEventListener('resize', shownCountCards);
   });
 
   function showMore() {
     const display = window.innerWidth;
-    if (display > 1180) {
+    if (display > 1100) {
       setShownCardsMovies(shownCardsMovies + DECKTOP);
-    } else if (display > 1023) {
+    } else if (display > 801) {
       setShownCardsMovies(shownCardsMovies + TABLET);
-    } else if (display < 1023) {
+    } else if (display <= 800) {
       setShownCardsMovies(shownCardsMovies + MOBILE);
     }
-  }
-
-  React.useEffect(() => {
-    const toggle = JSON.parse(localStorage.getItem("toggle"));
-    if (toggle) {
-      setisMovieShort(true);
-    }
-  }, []);
-
-  function handleToggle() {
-    setisMovieShort((item) => !item);
-    localStorage.setItem("toggle", !isMovieShort);
-
-    setisMovieShort(!isMovieShort);
   }
 
   return (
@@ -79,13 +65,15 @@ function Movies({
       <main className="movies">
         <SearchForm
           onSearch={onSearch}
-          onChange={handleToggle}
+          onChange={onChange}
           isMovieShort={isMovieShort}
+          isSearchValueInput={isSearchValueInput}
+          setIsSearchValueInput={setIsSearchValueInput}
         />
 
         {!isPreload ? (
           <MoviesCardList
-            cards={filterMovies}
+            cards={cards}
             isNotFoundMovie={isNotFoundMovie}
             shownCardsMovies={shownCardsMovies}
             onLike={onLike}
@@ -97,19 +85,14 @@ function Movies({
           <Preloader />
         )}
         <div className="moviesCardList__block">
-          {shownCardsMovies > 0 && filterMovies.length > shownCardsMovies ? (
+          {shownCardsMovies > 0 && cards.length > shownCardsMovies ? (
             <button
-              className={`moviesCardList__button ${
-                location.pathname === "/saved-movies"
-                  ? "moviesCardList__button_hidden"
-                  : ""
-              }`}
-              onClick={showMore}
-            >
+              className={`moviesCardList__button ${location.pathname === '/saved-movies' ? 'moviesCardList__button_hidden' : ''}`}
+              onClick={showMore}>
               Ещё
             </button>
           ) : (
-            ""
+            ''
           )}
         </div>
       </main>
