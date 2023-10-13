@@ -173,6 +173,7 @@ function App() {
   //отправка изменненых данных из формы редактирования профиля
   function handleSubmitProfile(data) {
     setIsSubmitForm(true);
+    // const token = localStorage.getItem("token");
     api
       .changeValuesUserInfo(data)
       .then((data) => {
