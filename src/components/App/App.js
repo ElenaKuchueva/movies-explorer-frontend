@@ -185,7 +185,7 @@ function App() {
         setIsSubmitForm(false);
       })
       .catch((err) => {
-        if (err.status === 11000) {
+        if (err.status === 409) {
           return setErrorValueForm("Пользователь с таким email уже существует");
         }
         setErrorValueForm("Произошла ошибка при сохранении изменений");
