@@ -115,12 +115,10 @@ function App() {
       .register(name, email, password)
       .then(() => {
         setIsSubmitForm(false);
-        loggedIn(true);
         handleSubmitAuthorize({ email, password });
       })
       .catch((err) => {
         setIsSubmitForm(false);
-        loggedIn(false);
         if (err.status === 409) {
           return setErrorValueForm(
             "Пользователь с таким email уже зарегистирован"
@@ -240,6 +238,9 @@ function App() {
     localStorage.removeItem("toggle");
     localStorage.removeItem("saveMovies");
     setIsShowMovies([]);
+    setIsSaveFilms([]);
+    setisMovieShort(false);
+    setIsSearchValueInput("");
     navigate("/");
     loggedIn(false);
   }
