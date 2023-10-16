@@ -1,5 +1,5 @@
 export const BASE_URL = "https://api.kuchueva-diplom.nomoredomainsicu.ru";
-// export const BASE_URL = "http://localhost:3000";
+// export const BASE_URL = 'http://localhost:3000';
 
 const handleResponse = (res) => {
   if (res.ok) {
@@ -20,20 +20,20 @@ const handleResponse = (res) => {
 //показать карточки
 export const getCardsMovies = () => {
   return fetch(`${BASE_URL}/movies`, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
+      authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json',
     },
   }).then(handleResponse);
 };
 
 export const likeMovie = (movies) => {
   return fetch(`${BASE_URL}/movies`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(movies),
   }).then(handleResponse);
@@ -42,10 +42,10 @@ export const likeMovie = (movies) => {
 //Удалить фильм
 export const deleteMovie = (cardId) => {
   return fetch(`${BASE_URL}/movies/${cardId}`, {
-    method: "DELETE",
+    method: 'DELETE',
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json',
     },
   }).then((res) => handleResponse(res));
 };
@@ -54,10 +54,10 @@ export const deleteMovie = (cardId) => {
 //?
 export const getJwt = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
   }).then((res) => handleResponse(res));
@@ -66,10 +66,10 @@ export const getJwt = (token) => {
 //Актуальные данные о пользователе
 export const getUserInfo = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
-    method: "GET",
+    method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   }).then((res) => handleResponse(res));
 };
@@ -77,10 +77,10 @@ export const getUserInfo = (token) => {
 //Изменить даные о пользователе
 export const changeValuesUserInfo = (data) => {
   return fetch(`${BASE_URL}/users/me`, {
-    method: "PATCH",
+    method: 'PATCH',
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       name: data.name,
@@ -91,10 +91,10 @@ export const changeValuesUserInfo = (data) => {
 
 export const register = (name, email, password) => {
   return fetch(`${BASE_URL}/signup`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ name, email, password }),
   }).then((res) => handleResponse(res));
@@ -102,10 +102,10 @@ export const register = (name, email, password) => {
 
 export const authorize = (email, password) => {
   return fetch(`${BASE_URL}/signin`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email, password }),
   }).then((res) => handleResponse(res));

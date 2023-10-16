@@ -2,7 +2,7 @@ import React from 'react';
 import './MoviesCard.css';
 import { useLocation } from 'react-router-dom';
 
-function MoviesCard({ card, onLike, onDelete, isSaveFilms, onSaved }) {
+function MoviesCard({ card, onLike, onDelete, isSaveFilms, setIsSaveFilms, onSaved }) {
   const location = useLocation();
   const hours = Math.trunc(card.duration / 60);
   const minuts = card.duration % 60;
@@ -23,6 +23,8 @@ function MoviesCard({ card, onLike, onDelete, isSaveFilms, onSaved }) {
 
   function deleteMovie() {
     onDelete(card);
+    const updatedSaveFilms = isSaveFilms.filter((item) => item._id !== card._id);
+    setIsSaveFilms(updatedSaveFilms);
   }
 
   return (

@@ -4,46 +4,50 @@ import Header from '../Header/Header.js';
 import SearchForm from '../SearchForm/SearchForm.js';
 import MoviesCardList from '../MoviesCardList/MoviesCardList.js';
 import Footer from '../Footer/Footer';
+import { searchMovies } from '../../utils/filter.js';
+import * as api from '../../utils/MainApi.js';
 
-function SavedMovies({ isloggedIn, isSaveFilms, onDelete, searchMovies, getSavedMovies }) {
-  const [filteredMovies, setFilteredMovies] = React.useState([]);
+function SavedMovies({ isloggedIn, onDelete }) {
+  const [isSaveFilms, setIsSaveFilms] = React.useState([]);
+  // const [filteredMovies, setFilteredMovies] = React.useState([]);
 
-  const [isSearchSave, setIsSearchSave] = React.useState(false);
   const [isShortFilm, setIsShortFilm] = React.useState(false);
   const [isNotFoundMovie, setisNotFoundMovie] = React.useState('');
   const [isSearchValueInput, setIsSearchValueInput] = React.useState('');
 
-  const shortMovies = !isSearchSave ? getCheckbox(isSaveFilms) : getCheckbox(filteredMovies);
-  const enterMovies = isSearchSave ? filteredMovies : isSaveFilms;
-
   useEffect(() => {
-    getSavedMovies();
+    api
+      .getCardsMovies()
+      .then((data) => {
+        setIsSaveFilms(data);
+        localStorage.setItem('saveMovies', JSON.stringify(data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
-  function handleSaveToggle(evt) {
-    if (evt.target.checked) {
-      setIsShortFilm(true);
-    } else {
-      setIsShortFilm(false);
-    }
-  }
   function handleSubmit(query) {
-    setIsSearchSave(true);
-    const filterMovies = searchMovies(isSaveFilms, query);
-    setFilteredMovies(filterMovies);
-    if (filterMovies.length === 0) {
-      setisNotFoundMovie('По вашему запросу ничего не найдено');
-    } else {
-      setisNotFoundMovie('');
+    const store = localStorage.getItem('saveMovies');
+    if (store) {
+      const filterMovies = searchMovies(JSON.parse(store), query, isShortFilm);
+      setIsSaveFilms(filterMovies);
+      if (filterMovies.length === 0) {
+        setisNotFoundMovie('По вашему запросу ничего не найдено');
+      } else {
+        setisNotFoundMovie('');
+      }
     }
   }
 
-  // React.useEffect(() => {
-  //   setFilteredMovies((state) => state.filter((movie) => isSaveFilms.find((film) => film._id === movie._id)));
-  // }, [isSaveFilms]);
-
-  function getCheckbox(movies) {
-    return movies.filter((i) => i.duration <= 40);
+  function toggleCheckbox(evt) {
+    const checkbox = evt.target.checked;
+    setIsShortFilm(checkbox);
+    const store = localStorage.getItem('saveMovies');
+    if (store) {
+      const search = searchMovies(JSON.parse(store), isSearchValueInput, checkbox);
+      setIsSaveFilms(search);
+    }
   }
 
   return (
@@ -52,16 +56,16 @@ function SavedMovies({ isloggedIn, isSaveFilms, onDelete, searchMovies, getSaved
       <main className="savedMovies">
         <SearchForm
           onSearch={handleSubmit}
-          onChange={handleSaveToggle}
+          onChange={toggleCheckbox}
           isMovieShort={isShortFilm}
           isSearchValueInput={isSearchValueInput}
           setIsSearchValueInput={setIsSearchValueInput}
         />
         <MoviesCardList
           onDelete={onDelete}
-          // cards={isSaveFilms}
-          cards={isShortFilm ? shortMovies : enterMovies}
+          cards={isSaveFilms}
           isSaveFilms={isSaveFilms}
+          setIsSaveFilms={setIsSaveFilms}
           isNotFoundMovie={isNotFoundMovie}
         />
       </main>

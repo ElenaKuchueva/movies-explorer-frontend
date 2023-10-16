@@ -2,7 +2,7 @@ import React from 'react';
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard.js';
 
-function MoviesCardList({ cards, isNotFoundMovie, shownCardsMovies, onLike, onDelete, isSaveFilms }) {
+function MoviesCardList({ cards, isNotFoundMovie, shownCardsMovies, onLike, onDelete, isSaveFilms, setIsSaveFilms }) {
   function savedMovieCard(isSaveFilms, card) {
     return isSaveFilms.some((savedFilm) => savedFilm.movieId === card.id);
   }
@@ -18,6 +18,7 @@ function MoviesCardList({ cards, isNotFoundMovie, shownCardsMovies, onLike, onDe
               onLike={onLike}
               onDelete={onDelete}
               isSaveFilms={isSaveFilms}
+              setIsSaveFilms={setIsSaveFilms}
               onSaved={savedMovieCard(isSaveFilms, card)}
             />
           ))}

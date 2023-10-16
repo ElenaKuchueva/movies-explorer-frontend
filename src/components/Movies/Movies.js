@@ -22,6 +22,7 @@ function Movies({
   isSearchValueInput,
   setIsSearchValueInput,
   isMovieShort,
+  getSavedMovies,
 }) {
   const location = useLocation();
 
@@ -42,7 +43,8 @@ function Movies({
 
   React.useEffect(() => {
     shownCountCards();
-  }, []);
+    getSavedMovies();
+  }, [isSearchValueInput]);
 
   React.useEffect(() => {
     window.addEventListener('resize', shownCountCards);
